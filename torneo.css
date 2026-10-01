@@ -132,6 +132,10 @@ table.posiciones tr.clasifica td {
     background: var(--celeste-claro);
 }
 
+table.posiciones tr.tercero td {
+    background: #fff8e8;
+}
+
 .puesto {
     display: inline-block;
     width: 24px;
@@ -147,6 +151,11 @@ table.posiciones tr.clasifica td {
 tr.clasifica .puesto {
     background: var(--dorado);
     color: white;
+}
+
+tr.tercero .puesto {
+    background: #f0d38a;
+    color: var(--azul);
 }
 
 .aclaracion {

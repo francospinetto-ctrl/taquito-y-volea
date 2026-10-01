@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Administrador · Taquito y Volea</title>
+    <title>Administrador Pádel · Taquito y Volea</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="torneo.css">
@@ -24,7 +24,7 @@
 
         <div class="logo">
             <div class="sol">☼</div>
-            <h1>ADMINISTRADOR</h1>
+            <h1>ADMIN · PÁDEL</h1>
             <p>TAQUITO Y VOLEA</p>
         </div>
 
@@ -33,7 +33,6 @@
 
     <main>
 
-        <!-- LOGIN -->
         <section class="bloque" id="bloque-login">
 
             <h3>Iniciar sesión</h3>
@@ -47,11 +46,16 @@
         </section>
 
 
-        <!-- PANEL (se muestra recién al loguearte) -->
         <section id="panel-admin" style="display:none;">
 
+            <p style="margin-bottom:20px;">
+                <a href="admin.html" class="pestana" style="text-decoration:none;display:inline-block;">
+                    Ir a administrador de Fútbol →
+                </a>
+            </p>
+
             <div class="bloque">
-                <h3>Nombres de los equipos</h3>
+                <h3>Nombres de las parejas</h3>
                 <div id="form-equipos"></div>
                 <button class="pestana activa" onclick="guardarEquipos()">Guardar nombres</button>
             </div>
@@ -66,9 +70,14 @@
                 <div id="form-resultados-B"></div>
             </div>
 
+            <div class="bloque">
+                <h3>Resultados · Zona C</h3>
+                <div id="form-resultados-C"></div>
+            </div>
+
             <button class="pestana activa" onclick="guardarResultados()">Guardar resultados de zonas</button>
 
-            <div class="bloque">
+            <div class="bloque" style="margin-top:30px;">
                 <h3>Fase final</h3>
                 <div id="form-final"></div>
                 <button class="pestana activa" onclick="guardarFinal()">Guardar fase final</button>
@@ -84,8 +93,8 @@
 
 
     <script src="firebase-init.js"></script>
-    <script src="logica.js"></script>
-    <script src="admin.js"></script>
+    <script src="logica-padel.js"></script>
+    <script src="admin-padel.js"></script>
 
 </body>
 

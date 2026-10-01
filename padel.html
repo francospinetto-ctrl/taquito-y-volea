@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Fútbol 5 · Taquito y Volea</title>
+    <title>Pádel · Taquito y Volea</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="torneo.css">
@@ -24,8 +24,8 @@
 
         <div class="logo">
             <div class="sol">☼</div>
-            <h1>FÚTBOL 5</h1>
-            <p>TAQUITO Y VOLEA · 10 EQUIPOS</p>
+            <h1>PÁDEL</h1>
+            <p>TAQUITO Y VOLEA · 12 PAREJAS</p>
         </div>
 
         <div class="decoracion decoracion-derecha">✦</div>
@@ -37,24 +37,16 @@
 
         <nav class="pestanas">
 
-            <button class="pestana activa" onclick="mostrarPanel('A', this)">
-                ZONA A
-            </button>
-
-            <button class="pestana" onclick="mostrarPanel('B', this)">
-                ZONA B
-            </button>
-
-            <button class="pestana" onclick="mostrarPanel('F', this)">
-                FASE FINAL
-            </button>
+            <button class="pestana activa" onclick="mostrarPanel('A', this)">ZONA A</button>
+            <button class="pestana" onclick="mostrarPanel('B', this)">ZONA B</button>
+            <button class="pestana" onclick="mostrarPanel('C', this)">ZONA C</button>
+            <button class="pestana" onclick="mostrarPanel('F', this)">FASE FINAL</button>
 
         </nav>
 
         <section class="panel visible" id="panel-A"></section>
-
         <section class="panel" id="panel-B"></section>
-
+        <section class="panel" id="panel-C"></section>
         <section class="panel" id="panel-F"></section>
 
     </main>
@@ -67,8 +59,8 @@
 
 
     <script src="firebase-init.js"></script>
-    <script src="logica.js"></script>
-    <script src="futbol.js"></script>
+    <script src="logica-padel.js"></script>
+    <script src="padel.js"></script>
 
 </body>
 

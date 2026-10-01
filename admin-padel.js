@@ -1,12 +1,13 @@
 /* =========================================================
-   PANEL DE ADMINISTRADOR
+   PANEL DE ADMINISTRADOR · PÁDEL
 ========================================================= */
 
-const refFutbol = db.collection("torneos").doc("futbol");
+const refPadel = db.collection("torneos").doc("padel");
 
 let TORNEO = {
-    equiposA: ["Equipo 1", "Equipo 2", "Equipo 3", "Equipo 4", "Equipo 5"],
-    equiposB: ["Equipo 6", "Equipo 7", "Equipo 8", "Equipo 9", "Equipo 10"],
+    equiposA: ["Pareja 1", "Pareja 2", "Pareja 3", "Pareja 4"],
+    equiposB: ["Pareja 5", "Pareja 6", "Pareja 7", "Pareja 8"],
+    equiposC: ["Pareja 9", "Pareja 10", "Pareja 11", "Pareja 12"],
     resultados: {},
     final: {}
 };
@@ -20,7 +21,7 @@ function iniciarSesion() {
     const pass = document.getElementById('login-pass').value;
 
     auth.signInWithEmailAndPassword(email, pass)
-        .catch(function (error) {
+        .catch(function () {
             document.getElementById('login-error').textContent =
                 "No se pudo entrar: revisá el email y la contraseña.";
         });
@@ -49,19 +50,18 @@ auth.onAuthStateChanged(function (usuario) {
 });
 
 
-/* ---- CARGAR DATOS ACTUALES ---- */
+/* ---- CARGAR ---- */
 
 function cargarDatos() {
 
-    refFutbol.get().then(function (snap) {
+    refPadel.get().then(function (snap) {
 
         if (snap.exists) {
             TORNEO = snap.data();
             TORNEO.resultados = TORNEO.resultados || {};
             TORNEO.final = TORNEO.final || {};
         } else {
-            // primera vez: creamos el documento con los valores de prueba
-            refFutbol.set(TORNEO);
+            refPadel.set(TORNEO);
         }
 
         dibujarFormularios();
@@ -71,34 +71,33 @@ function cargarDatos() {
 }
 
 
-/* ---- FORMULARIO: NOMBRES DE EQUIPOS ---- */
+/* ---- FORMULARIOS ---- */
 
 function dibujarFormularios() {
 
     let htmlEquipos = '';
 
-    TORNEO.equiposA.forEach(function (nombre, i) {
-        htmlEquipos += '<div class="fila-admin">'
-            + '<label>Zona A - Equipo ' + (i + 1) + '</label>'
-            + '<input type="text" id="equipoA' + i + '" value="' + nombre + '">'
-            + '</div>';
-    });
+    ["A", "B", "C"].forEach(function (zona) {
 
-    TORNEO.equiposB.forEach(function (nombre, i) {
-        htmlEquipos += '<div class="fila-admin">'
-            + '<label>Zona B - Equipo ' + (i + 1) + '</label>'
-            + '<input type="text" id="equipoB' + i + '" value="' + nombre + '">'
-            + '</div>';
+        TORNEO["equipos" + zona].forEach(function (nombre, i) {
+
+            htmlEquipos += '<div class="fila-admin">'
+                + '<label>Zona ' + zona + ' - Pareja ' + (i + 1) + '</label>'
+                + '<input type="text" id="equipo' + zona + i + '" value="' + nombre + '">'
+                + '</div>';
+
+        });
+
     });
 
     document.getElementById('form-equipos').innerHTML = htmlEquipos;
 
 
-    ["A", "B"].forEach(function (zona) {
+    ["A", "B", "C"].forEach(function (zona) {
 
         let html = '';
 
-        partidosDeZona(TORNEO, zona).forEach(function (p) {
+        partidosDeZonaPadel(TORNEO, zona).forEach(function (p) {
 
             const gl = p.resultado ? p.resultado[0] : '';
             const gv = p.resultado ? p.resultado[1] : '';
@@ -118,17 +117,26 @@ function dibujarFormularios() {
     });
 
 
-    /* fase final: usamos los clasificados actuales para mostrar los nombres */
+    /* Fase final */
 
-    const a1 = clasificado(TORNEO, "A", 1);
-    const a2 = clasificado(TORNEO, "A", 2);
-    const b1 = clasificado(TORNEO, "B", 1);
-    const b2 = clasificado(TORNEO, "B", 2);
+    const a1 = clasificadoPadel(TORNEO, "A", 1);
+    const a2 = clasificadoPadel(TORNEO, "A", 2);
+    const b1 = clasificadoPadel(TORNEO, "B", 1);
+    const b2 = clasificadoPadel(TORNEO, "B", 2);
+    const c1 = clasificadoPadel(TORNEO, "C", 1);
+    const c2 = clasificadoPadel(TORNEO, "C", 2);
+
+    const ter = mejoresTercerosPadel(TORNEO);
+    const m31 = ter[0];
+    const m32 = ter[1];
 
     const cruces = [
-        { codigo: "SF1", titulo: "Semifinal 1", local: a1.nombre, visita: b2.nombre },
-        { codigo: "SF2", titulo: "Semifinal 2", local: b1.nombre, visita: a2.nombre },
-        { codigo: "TER", titulo: "Tercer puesto", local: "Perdedor SF1", visita: "Perdedor SF2" },
+        { codigo: "CU1", titulo: "Cuarto 1", local: b2.nombre, visita: a1.nombre },
+        { codigo: "CU2", titulo: "Cuarto 2", local: c1.nombre, visita: m31.nombre },
+        { codigo: "CU3", titulo: "Cuarto 3", local: b1.nombre, visita: c2.nombre },
+        { codigo: "CU4", titulo: "Cuarto 4", local: a2.nombre, visita: m32.nombre },
+        { codigo: "SF1", titulo: "Semifinal 1", local: "Ganador CU1", visita: "Ganador CU2" },
+        { codigo: "SF2", titulo: "Semifinal 2", local: "Ganador CU3", visita: "Ganador CU4" },
         { codigo: "FIN", titulo: "Final", local: "Ganador SF1", visita: "Ganador SF2" }
     ];
 
@@ -137,7 +145,7 @@ function dibujarFormularios() {
     cruces.forEach(function (c) {
 
         const res = TORNEO.final[c.codigo] || ['', ''];
-        const pen = TORNEO.final[c.codigo + "_PENALES"] || ['', ''];
+        const tb = TORNEO.final[c.codigo + "_TB"] || ['', ''];
 
         htmlFinal += '<div class="fila-resultado">'
             + '<span>' + c.codigo + '</span>'
@@ -147,10 +155,10 @@ function dibujarFormularios() {
             + '<span>' + c.visita + '</span>'
             + '</div>'
             + '<div class="fila-admin">'
-            + '<label>Penales ' + c.codigo + ' (si empató; dejar vacío si no hubo)</label>'
+            + '<label>Desempate ' + c.codigo + ' (solo si terminó igualado)</label>'
             + '<div style="display:flex;gap:8px;">'
-            + '<input type="number" min="0" id="pgl-' + c.codigo + '" value="' + pen[0] + '" style="width:70px;">'
-            + '<input type="number" min="0" id="pgv-' + c.codigo + '" value="' + pen[1] + '" style="width:70px;">'
+            + '<input type="number" min="0" id="tbl-' + c.codigo + '" value="' + tb[0] + '" style="width:70px;">'
+            + '<input type="number" min="0" id="tbv-' + c.codigo + '" value="' + tb[1] + '" style="width:70px;">'
             + '</div></div>';
 
     });
@@ -164,15 +172,17 @@ function dibujarFormularios() {
 
 function guardarEquipos() {
 
-    const equiposA = TORNEO.equiposA.map(function (_, i) {
-        return document.getElementById('equipoA' + i).value;
+    const cambios = {};
+
+    ["A", "B", "C"].forEach(function (zona) {
+
+        cambios["equipos" + zona] = TORNEO["equipos" + zona].map(function (_, i) {
+            return document.getElementById('equipo' + zona + i).value;
+        });
+
     });
 
-    const equiposB = TORNEO.equiposB.map(function (_, i) {
-        return document.getElementById('equipoB' + i).value;
-    });
-
-    refFutbol.update({ equiposA: equiposA, equiposB: equiposB }).then(function () {
+    refPadel.update(cambios).then(function () {
         alert("Nombres guardados.");
     });
 
@@ -183,9 +193,9 @@ function guardarResultados() {
 
     const cambios = {};
 
-    ["A", "B"].forEach(function (zona) {
+    ["A", "B", "C"].forEach(function (zona) {
 
-        partidosDeZona(TORNEO, zona).forEach(function (p) {
+        partidosDeZonaPadel(TORNEO, zona).forEach(function (p) {
 
             const gl = document.getElementById('gl-' + p.codigo).value;
             const gv = document.getElementById('gv-' + p.codigo).value;
@@ -198,7 +208,7 @@ function guardarResultados() {
 
     });
 
-    refFutbol.update(cambios).then(function () {
+    refPadel.update(cambios).then(function () {
         alert("Resultados guardados.");
         cargarDatos();
     });
@@ -208,7 +218,7 @@ function guardarResultados() {
 
 function guardarFinal() {
 
-    const codigos = ["SF1", "SF2", "TER", "FIN"];
+    const codigos = ["CU1", "CU2", "CU3", "CU4", "SF1", "SF2", "FIN"];
     const cambios = {};
 
     codigos.forEach(function (codigo) {
@@ -220,16 +230,16 @@ function guardarFinal() {
             cambios['final.' + codigo] = [Number(gl), Number(gv)];
         }
 
-        const pgl = document.getElementById('pgl-' + codigo).value;
-        const pgv = document.getElementById('pgv-' + codigo).value;
+        const tbl = document.getElementById('tbl-' + codigo).value;
+        const tbv = document.getElementById('tbv-' + codigo).value;
 
-        if (pgl !== '' && pgv !== '') {
-            cambios['final.' + codigo + '_PENALES'] = [Number(pgl), Number(pgv)];
+        if (tbl !== '' && tbv !== '') {
+            cambios['final.' + codigo + '_TB'] = [Number(tbl), Number(tbv)];
         }
 
     });
 
-    refFutbol.update(cambios).then(function () {
+    refPadel.update(cambios).then(function () {
         alert("Fase final guardada.");
         cargarDatos();
     });
