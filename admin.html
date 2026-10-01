@@ -25,7 +25,7 @@
         <div class="logo">
             <div class="sol">☼</div>
             <h1>ADMINISTRADOR</h1>
-            <p>TAQUITO Y VOLEA</p>
+            <p>TAQUITO Y VOLEA · FÚTBOL</p>
         </div>
 
     </header>
@@ -50,6 +50,19 @@
         <!-- PANEL (se muestra recién al loguearte) -->
         <section id="panel-admin" style="display:none;">
 
+            <!-- Selector de disciplina -->
+            <div class="bloque" style="text-align:center;">
+                <h3>Disciplina a administrar</h3>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button class="pestana activa" onclick="location.href='admin.html'">
+                        ⚽ FÚTBOL 5
+                    </button>
+                    <button class="pestana" onclick="location.href='admin-padel.html'">
+                        🎾 PÁDEL
+                    </button>
+                </div>
+            </div>
+
             <div class="bloque">
                 <h3>Nombres de los equipos</h3>
                 <div id="form-equipos"></div>
@@ -68,7 +81,7 @@
 
             <button class="pestana activa" onclick="guardarResultados()">Guardar resultados de zonas</button>
 
-            <div class="bloque">
+            <div class="bloque" style="margin-top:30px;">
                 <h3>Fase final</h3>
                 <div id="form-final"></div>
                 <button class="pestana activa" onclick="guardarFinal()">Guardar fase final</button>

@@ -24,8 +24,8 @@
 
         <div class="logo">
             <div class="sol">☼</div>
-            <h1>ADMIN · PÁDEL</h1>
-            <p>TAQUITO Y VOLEA</p>
+            <h1>ADMINISTRADOR</h1>
+            <p>TAQUITO Y VOLEA · PÁDEL</p>
         </div>
 
     </header>
@@ -33,6 +33,7 @@
 
     <main>
 
+        <!-- LOGIN -->
         <section class="bloque" id="bloque-login">
 
             <h3>Iniciar sesión</h3>
@@ -46,13 +47,21 @@
         </section>
 
 
+        <!-- PANEL -->
         <section id="panel-admin" style="display:none;">
 
-            <p style="margin-bottom:20px;">
-                <a href="admin.html" class="pestana" style="text-decoration:none;display:inline-block;">
-                    Ir a administrador de Fútbol →
-                </a>
-            </p>
+            <!-- Selector de disciplina -->
+            <div class="bloque" style="text-align:center;">
+                <h3>Disciplina a administrar</h3>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button class="pestana" onclick="location.href='admin.html'">
+                        ⚽ FÚTBOL 5
+                    </button>
+                    <button class="pestana activa" onclick="location.href='admin-padel.html'">
+                        🎾 PÁDEL
+                    </button>
+                </div>
+            </div>
 
             <div class="bloque">
                 <h3>Nombres de las parejas</h3>
