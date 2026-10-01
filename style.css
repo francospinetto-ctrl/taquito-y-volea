@@ -1,0 +1,472 @@
+/* ================================
+   COLORES DEL TORNEO
+================================ */
+
+:root {
+
+    --azul: #163a5c;
+    --azul-oscuro: #102d48;
+
+    --celeste: #9bc4df;
+    --celeste-claro: #dcecf5;
+
+    --dorado: #d4a24c;
+
+    --blanco: #ffffff;
+    --fondo: #f7f7f5;
+
+    --texto: #172b3d;
+}
+
+
+/* ================================
+   CONFIGURACIÓN GENERAL
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background-color: var(--fondo);
+
+    color: var(--texto);
+}
+
+
+/* ================================
+   ENCABEZADO
+================================ */
+
+.hero {
+
+    position: relative;
+
+    min-height: 330px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            #ffffff 0%,
+            #f4f4f1 70%
+        );
+
+    border-bottom:
+        5px solid var(--dorado);
+
+    overflow: hidden;
+}
+
+
+/* detalles decorativos */
+
+.decoracion {
+
+    position: absolute;
+
+    color: var(--celeste);
+
+    font-size: 180px;
+
+    opacity: 0.18;
+}
+
+.decoracion-izquierda {
+
+    left: -30px;
+
+    bottom: -80px;
+
+    transform: rotate(-20deg);
+}
+
+.decoracion-derecha {
+
+    right: -30px;
+
+    top: -80px;
+
+    transform: rotate(20deg);
+}
+
+
+/* logo */
+
+.logo {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.sol {
+
+    color: var(--dorado);
+
+    font-size: 65px;
+
+    line-height: 1;
+
+    margin-bottom: 5px;
+}
+
+.logo h1 {
+
+    margin: 0;
+
+    color: var(--azul);
+
+    font-size: clamp(
+        2rem,
+        5vw,
+        4rem
+    );
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.logo p {
+
+    margin-top: 8px;
+
+    color: var(--azul);
+
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+/* ================================
+   CONTENIDO
+================================ */
+
+main {
+
+    width: min(
+        1100px,
+        92%
+    );
+
+    margin: 0 auto;
+
+    padding: 50px 0;
+}
+
+
+/* ================================
+   BIENVENIDA
+================================ */
+
+.bienvenida {
+
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.bienvenida h2 {
+
+    color: var(--azul);
+
+    font-size: 2rem;
+
+    margin-bottom: 10px;
+}
+
+.bienvenida p {
+
+    margin: 5px;
+
+    font-size: 1.1rem;
+}
+
+.bienvenida .subtitulo {
+
+    color: #657586;
+
+    font-size: 0.95rem;
+}
+
+
+/* ================================
+   BOTONES DE TORNEO
+================================ */
+
+.torneos {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 25px;
+
+    margin-bottom: 45px;
+}
+
+
+.torneo-card {
+
+    border: none;
+
+    min-height: 210px;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    color: white;
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+}
+
+
+/* fútbol */
+
+.futbol {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--azul),
+            #28587f
+        );
+}
+
+
+/* pádel */
+
+.padel {
+
+    background:
+        linear-gradient(
+            135deg,
+            #78aeca,
+            #9bc4df
+        );
+
+    color: var(--azul);
+}
+
+
+/* iconos */
+
+.icono {
+
+    font-size: 65px;
+
+    min-width: 75px;
+
+    text-align: center;
+}
+
+
+/* textos */
+
+.torneo-card h2 {
+
+    margin: 0 0 8px;
+
+    font-size: 1.7rem;
+}
+
+.torneo-card p {
+
+    margin: 0 0 20px;
+
+    font-size: 1rem;
+}
+
+.torneo-card span {
+
+    font-size: 0.8rem;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+
+/* efecto al pasar mouse */
+
+.torneo-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(
+            22,
+            58,
+            92,
+            0.20
+        );
+}
+
+
+/* ================================
+   INFORMACIÓN
+================================ */
+
+.informacion {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap: 20px;
+}
+
+.info-box {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    border-top:
+        4px solid
+        var(--celeste);
+
+    box-shadow:
+        0 3px 12px
+        rgba(
+            0,
+            0,
+            0,
+            0.05
+        );
+}
+
+.info-box strong {
+
+    color: var(--azul);
+
+    display: block;
+
+    margin-bottom: 8px;
+}
+
+.info-box p {
+
+    margin: 0;
+
+    color: #667788;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+
+    background: var(--azul);
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+
+    font-size: 0.8rem;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* ================================
+   CELULAR
+================================ */
+
+@media (
+    max-width: 700px
+) {
+
+    .hero {
+
+        min-height: 280px;
+
+        padding: 40px 15px;
+    }
+
+    .logo h1 {
+
+        font-size: 2rem;
+    }
+
+    .logo p {
+
+        font-size: 0.75rem;
+
+        letter-spacing: 1px;
+    }
+
+
+    .torneos {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .torneo-card {
+
+        min-height: 170px;
+
+        padding: 25px;
+    }
+
+
+    .informacion {
+
+        grid-template-columns: 1fr;
+    }
+
+}

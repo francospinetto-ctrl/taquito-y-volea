@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administrador · Taquito y Volea</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="torneo.css">
+    <link rel="stylesheet" href="admin.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+
+    <header class="hero hero-torneo">
+
+        <a class="volver" href="index.html">← VOLVER</a>
+
+        <div class="logo">
+            <div class="sol">☼</div>
+            <h1>ADMINISTRADOR</h1>
+            <p>TAQUITO Y VOLEA</p>
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- LOGIN -->
+        <section class="bloque" id="bloque-login">
+
+            <h3>Iniciar sesión</h3>
+
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-pass" placeholder="Contraseña">
+            <button class="pestana activa" onclick="iniciarSesion()">Entrar</button>
+
+            <p id="login-error" style="color:#c0392b;"></p>
+
+        </section>
+
+
+        <!-- PANEL (se muestra recién al loguearte) -->
+        <section id="panel-admin" style="display:none;">
+
+            <div class="bloque">
+                <h3>Nombres de los equipos</h3>
+                <div id="form-equipos"></div>
+                <button class="pestana activa" onclick="guardarEquipos()">Guardar nombres</button>
+            </div>
+
+            <div class="bloque">
+                <h3>Resultados · Zona A</h3>
+                <div id="form-resultados-A"></div>
+            </div>
+
+            <div class="bloque">
+                <h3>Resultados · Zona B</h3>
+                <div id="form-resultados-B"></div>
+            </div>
+
+            <button class="pestana activa" onclick="guardarResultados()">Guardar resultados de zonas</button>
+
+            <div class="bloque">
+                <h3>Fase final</h3>
+                <div id="form-final"></div>
+                <button class="pestana activa" onclick="guardarFinal()">Guardar fase final</button>
+            </div>
+
+            <button class="volver" style="position:static;display:inline-block;margin-top:20px;" onclick="cerrarSesion()">
+                Cerrar sesión
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="firebase-init.js"></script>
+    <script src="logica.js"></script>
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

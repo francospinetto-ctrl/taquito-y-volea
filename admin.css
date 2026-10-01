@@ -1,0 +1,52 @@
+/* =========================================================
+   ESTILOS DEL PANEL DE ADMINISTRADOR
+========================================================= */
+
+#bloque-login input {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border: 2px solid var(--celeste);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.fila-admin {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.fila-admin label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--azul);
+}
+
+.fila-admin input[type="text"],
+.fila-admin input[type="number"] {
+    padding: 8px 10px;
+    border: 2px solid var(--celeste);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.fila-resultado {
+    display: grid;
+    grid-template-columns: 60px 1fr 60px 60px 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.fila-resultado input {
+    width: 100%;
+    padding: 6px;
+    text-align: center;
+    border: 2px solid var(--celeste);
+    border-radius: 6px;
+}
