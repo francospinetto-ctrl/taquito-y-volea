@@ -92,6 +92,26 @@
                 <button class="pestana activa" onclick="guardarFinal()">Guardar fase final</button>
             </div>
 
+            <!-- ZONA DE REINICIO -->
+            <div class="bloque" style="border-top-color:#c0392b;background:#fff7f6;">
+                <h3 style="color:#c0392b;">⚠ Reiniciar torneo</h3>
+                <p style="font-size:0.9rem;color:#7a5c5c;margin-top:0;">
+                    Estas acciones borran resultados de la base de datos.
+                    Los nombres de las parejas <strong>no se pierden</strong>.
+                </p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="pestana" style="background:#f7dedb;border-color:#c0392b;color:#c0392b;" onclick="resetearZonas()">
+                        🗑 Borrar fase de grupos
+                    </button>
+                    <button class="pestana" style="background:#f7dedb;border-color:#c0392b;color:#c0392b;" onclick="resetearFinal()">
+                        🗑 Borrar fase final
+                    </button>
+                    <button class="pestana" style="background:#c0392b;border-color:#c0392b;color:white;" onclick="resetearTodo()">
+                        🔄 Reiniciar TODO el torneo
+                    </button>
+                </div>
+            </div>
+
             <button class="volver" style="position:static;display:inline-block;margin-top:20px;" onclick="cerrarSesion()">
                 Cerrar sesión
             </button>

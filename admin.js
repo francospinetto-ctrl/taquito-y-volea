@@ -1,5 +1,5 @@
 /* =========================================================
-   PANEL DE ADMINISTRADOR
+   PANEL DE ADMINISTRADOR · FÚTBOL
 ========================================================= */
 
 const refFutbol = db.collection("torneos").doc("futbol");
@@ -20,7 +20,7 @@ function iniciarSesion() {
     const pass = document.getElementById('login-pass').value;
 
     auth.signInWithEmailAndPassword(email, pass)
-        .catch(function (error) {
+        .catch(function () {
             document.getElementById('login-error').textContent =
                 "No se pudo entrar: revisá el email y la contraseña.";
         });
@@ -49,7 +49,7 @@ auth.onAuthStateChanged(function (usuario) {
 });
 
 
-/* ---- CARGAR DATOS ACTUALES ---- */
+/* ---- CARGAR DATOS ---- */
 
 function cargarDatos() {
 
@@ -60,7 +60,6 @@ function cargarDatos() {
             TORNEO.resultados = TORNEO.resultados || {};
             TORNEO.final = TORNEO.final || {};
         } else {
-            // primera vez: creamos el documento con los valores de prueba
             refFutbol.set(TORNEO);
         }
 
@@ -71,7 +70,7 @@ function cargarDatos() {
 }
 
 
-/* ---- FORMULARIO: NOMBRES DE EQUIPOS ---- */
+/* ---- FORMULARIOS ---- */
 
 function dibujarFormularios() {
 
@@ -118,7 +117,7 @@ function dibujarFormularios() {
     });
 
 
-    /* fase final: usamos los clasificados actuales para mostrar los nombres */
+    /* Fase final */
 
     const a1 = clasificado(TORNEO, "A", 1);
     const a2 = clasificado(TORNEO, "A", 2);
@@ -181,24 +180,27 @@ function guardarEquipos() {
 
 function guardarResultados() {
 
-    const cambios = {};
+    /* Reconstruimos TODOS los resultados desde cero:
+       así los partidos con campos vacíos quedan eliminados. */
+
+    const nuevosResultados = {};
 
     ["A", "B"].forEach(function (zona) {
 
         partidosDeZona(TORNEO, zona).forEach(function (p) {
 
-            const gl = document.getElementById('gl-' + p.codigo).value;
-            const gv = document.getElementById('gv-' + p.codigo).value;
+            const gl = document.getElementById('gl-' + p.codigo).value.trim();
+            const gv = document.getElementById('gv-' + p.codigo).value.trim();
 
             if (gl !== '' && gv !== '') {
-                cambios['resultados.' + p.codigo] = [Number(gl), Number(gv)];
+                nuevosResultados[p.codigo] = [Number(gl), Number(gv)];
             }
 
         });
 
     });
 
-    refFutbol.update(cambios).then(function () {
+    refFutbol.update({ resultados: nuevosResultados }).then(function () {
         alert("Resultados guardados.");
         cargarDatos();
     });
@@ -208,29 +210,77 @@ function guardarResultados() {
 
 function guardarFinal() {
 
-    const codigos = ["SF1", "SF2", "TER", "FIN"];
-    const cambios = {};
+    /* Mismo criterio: reconstruimos todo el objeto final. */
 
-    codigos.forEach(function (codigo) {
+    const nuevosFinal = {};
 
-        const gl = document.getElementById('fgl-' + codigo).value;
-        const gv = document.getElementById('fgv-' + codigo).value;
+    ["SF1", "SF2", "TER", "FIN"].forEach(function (codigo) {
+
+        const gl = document.getElementById('fgl-' + codigo).value.trim();
+        const gv = document.getElementById('fgv-' + codigo).value.trim();
 
         if (gl !== '' && gv !== '') {
-            cambios['final.' + codigo] = [Number(gl), Number(gv)];
+            nuevosFinal[codigo] = [Number(gl), Number(gv)];
         }
 
-        const pgl = document.getElementById('pgl-' + codigo).value;
-        const pgv = document.getElementById('pgv-' + codigo).value;
+        const pgl = document.getElementById('pgl-' + codigo).value.trim();
+        const pgv = document.getElementById('pgv-' + codigo).value.trim();
 
         if (pgl !== '' && pgv !== '') {
-            cambios['final.' + codigo + '_PENALES'] = [Number(pgl), Number(pgv)];
+            nuevosFinal[codigo + "_PENALES"] = [Number(pgl), Number(pgv)];
         }
 
     });
 
-    refFutbol.update(cambios).then(function () {
+    refFutbol.update({ final: nuevosFinal }).then(function () {
         alert("Fase final guardada.");
+        cargarDatos();
+    });
+
+}
+
+
+/* ---- REINICIAR ---- */
+
+function resetearZonas() {
+
+    if (!confirm("¿Borrar TODOS los resultados de la fase de grupos? Los nombres de equipos NO se pierden.")) {
+        return;
+    }
+
+    refFutbol.update({ resultados: {} }).then(function () {
+        alert("Fase de grupos reiniciada.");
+        cargarDatos();
+    });
+
+}
+
+
+function resetearFinal() {
+
+    if (!confirm("¿Borrar TODOS los resultados de la fase final?")) {
+        return;
+    }
+
+    refFutbol.update({ final: {} }).then(function () {
+        alert("Fase final reiniciada.");
+        cargarDatos();
+    });
+
+}
+
+
+function resetearTodo() {
+
+    if (!confirm("⚠ ¿Seguro que querés reiniciar TODO el torneo? Se borran los resultados de zonas Y de la fase final. Los nombres de equipos NO se pierden.")) {
+        return;
+    }
+
+    refFutbol.update({
+        resultados: {},
+        final: {}
+    }).then(function () {
+        alert("Torneo reiniciado por completo.");
         cargarDatos();
     });
 

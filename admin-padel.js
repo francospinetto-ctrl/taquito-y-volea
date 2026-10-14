@@ -191,24 +191,27 @@ function guardarEquipos() {
 
 function guardarResultados() {
 
-    const cambios = {};
+    /* Reconstruimos TODOS los resultados: los partidos con
+       campos vacíos quedan eliminados. */
+
+    const nuevosResultados = {};
 
     ["A", "B", "C"].forEach(function (zona) {
 
         partidosDeZonaPadel(TORNEO, zona).forEach(function (p) {
 
-            const gl = document.getElementById('gl-' + p.codigo).value;
-            const gv = document.getElementById('gv-' + p.codigo).value;
+            const gl = document.getElementById('gl-' + p.codigo).value.trim();
+            const gv = document.getElementById('gv-' + p.codigo).value.trim();
 
             if (gl !== '' && gv !== '') {
-                cambios['resultados.' + p.codigo] = [Number(gl), Number(gv)];
+                nuevosResultados[p.codigo] = [Number(gl), Number(gv)];
             }
 
         });
 
     });
 
-    refPadel.update(cambios).then(function () {
+    refPadel.update({ resultados: nuevosResultados }).then(function () {
         alert("Resultados guardados.");
         cargarDatos();
     });
@@ -218,29 +221,75 @@ function guardarResultados() {
 
 function guardarFinal() {
 
-    const codigos = ["CU1", "CU2", "CU3", "CU4", "SF1", "SF2", "FIN"];
-    const cambios = {};
+    const nuevosFinal = {};
 
-    codigos.forEach(function (codigo) {
+    ["CU1", "CU2", "CU3", "CU4", "SF1", "SF2", "FIN"].forEach(function (codigo) {
 
-        const gl = document.getElementById('fgl-' + codigo).value;
-        const gv = document.getElementById('fgv-' + codigo).value;
+        const gl = document.getElementById('fgl-' + codigo).value.trim();
+        const gv = document.getElementById('fgv-' + codigo).value.trim();
 
         if (gl !== '' && gv !== '') {
-            cambios['final.' + codigo] = [Number(gl), Number(gv)];
+            nuevosFinal[codigo] = [Number(gl), Number(gv)];
         }
 
-        const tbl = document.getElementById('tbl-' + codigo).value;
-        const tbv = document.getElementById('tbv-' + codigo).value;
+        const tbl = document.getElementById('tbl-' + codigo).value.trim();
+        const tbv = document.getElementById('tbv-' + codigo).value.trim();
 
         if (tbl !== '' && tbv !== '') {
-            cambios['final.' + codigo + '_TB'] = [Number(tbl), Number(tbv)];
+            nuevosFinal[codigo + "_TB"] = [Number(tbl), Number(tbv)];
         }
 
     });
 
-    refPadel.update(cambios).then(function () {
+    refPadel.update({ final: nuevosFinal }).then(function () {
         alert("Fase final guardada.");
+        cargarDatos();
+    });
+
+}
+
+
+/* ---- REINICIAR ---- */
+
+function resetearZonas() {
+
+    if (!confirm("¿Borrar TODOS los resultados de la fase de grupos? Los nombres de las parejas NO se pierden.")) {
+        return;
+    }
+
+    refPadel.update({ resultados: {} }).then(function () {
+        alert("Fase de grupos reiniciada.");
+        cargarDatos();
+    });
+
+}
+
+
+function resetearFinal() {
+
+    if (!confirm("¿Borrar TODOS los resultados de la fase final?")) {
+        return;
+    }
+
+    refPadel.update({ final: {} }).then(function () {
+        alert("Fase final reiniciada.");
+        cargarDatos();
+    });
+
+}
+
+
+function resetearTodo() {
+
+    if (!confirm("⚠ ¿Seguro que querés reiniciar TODO el torneo? Se borran los resultados de zonas Y de la fase final. Los nombres de las parejas NO se pierden.")) {
+        return;
+    }
+
+    refPadel.update({
+        resultados: {},
+        final: {}
+    }).then(function () {
+        alert("Torneo reiniciado por completo.");
         cargarDatos();
     });
 
